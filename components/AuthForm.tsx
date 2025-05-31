@@ -35,22 +35,43 @@ const AuthForm = ({ type }: { type: FormType }) => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+
+  // es6 onSubmit async fn
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+    const endpoint = type === 'sign-up' ? `${baseUrl}/auth/register` : `${baseUrl}/auth/login`;
+
     try {
-      if (type === 'sign-up') {
-        toast.success('Account Created successfully. Please sign in')
-        router.push('/sign-in')
-      } else {
-        toast.success('Sing In successfully')
-        router.push('/')
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await res.json(); 
+
+      console.log("Full Response Data:", data); 
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Something went wrong');
       }
 
-    } catch (error) {
-      console.log(error)
-      toast.error(`there was an error: ${error}`)
-    }
+      if (type === 'sign-up') {
+        toast.success('Account created successfully! Please sign in.');
+        router.push('/sign-in');
+      } else {
+        toast.success('Signed in successfully!');
+        router.push('/');
+      }
 
-  }
+    } catch (error: any) {
+      console.error("🟥 Error:", error);
+      toast.error(`There was an error: ${error.message || error}`);
+    }
+  };
 
   const isSignIn = type === 'sign-in'
 
