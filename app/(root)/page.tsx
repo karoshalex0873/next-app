@@ -25,13 +25,14 @@ const page = () => {
           height={400}
           className='max-sm:hidden'
         />
+        
       </section>
       <section className='flex flex-col gap-6 mt-8'>
         <h2>Your Interviews</h2>
 
         <div className='interviews-section'>
           {dummyInterviews.map((interview) => (
-            <InterviewCard {...interview} key={interview.id}/>
+            <InterviewCard {...interview} key={interview.id} />
           ))}
         </div>
       </section>
@@ -40,7 +41,7 @@ const page = () => {
         <h2>Take an Interview</h2>
         <div className='interviews-section'>
           {dummyInterviews.map((interview) => (
-            <InterviewCard {...interview} key={interview.id}/>
+            <InterviewCard {...interview} key={interview.id} />
           ))}
           {/* <p>there are no interview available</p> */}
         </div>

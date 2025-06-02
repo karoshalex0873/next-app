@@ -36,7 +36,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
   // 2. Define a submit handler.
 
-  // es6 onSubmit async fn
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
     const endpoint = type === 'sign-up' ? `${baseUrl}/auth/register` : `${baseUrl}/auth/login`;
